@@ -1,0 +1,12 @@
+<ApicreeProxies>
+    <Proxy path="/asdf" proxy="http://rsaestrela.github.io" metod="GET">
+        <PreExecutions>
+            <Execution executor="LogRequest"/>
+            <Execution executor="VerifyRequest"/>
+            <Execution executor="ModifyRequest"/>
+        </PreExecutions>
+        <PostExecutions>
+            <Execution executor="LogResponse"/>
+        </PostExecutions>
+    </Proxy>
+</ApicreeProxies>

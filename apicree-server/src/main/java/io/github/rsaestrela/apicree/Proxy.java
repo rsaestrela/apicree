@@ -1,16 +1,25 @@
 package io.github.rsaestrela.apicree;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "Proxy")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Proxy {
 
+    @XmlAttribute
     private String path;
 
+    @XmlAttribute
     private String proxy;
 
+    @XmlAttribute
     private String method;
 
+    @XmlElement(name = "PreExecution")
     private PreExecution preExecution;
 
-    private PreExecution postExecution;
+    @XmlElement(name = "PostExecution")
+    private PostExecution postExecution;
 
     public String getPath() {
         return path;
@@ -44,11 +53,11 @@ public class Proxy {
         this.preExecution = preExecution;
     }
 
-    public PreExecution getPostExecution() {
+    public PostExecution getPostExecution() {
         return postExecution;
     }
 
-    public void setPostExecution(PreExecution postExecution) {
+    public void setPostExecution(PostExecution postExecution) {
         this.postExecution = postExecution;
     }
 }

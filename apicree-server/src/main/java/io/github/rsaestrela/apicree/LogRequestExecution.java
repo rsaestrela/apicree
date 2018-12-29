@@ -1,11 +1,8 @@
 package io.github.rsaestrela.apicree;
 
-import javax.servlet.http.HttpServletRequest;
-
-public class LogRequestExecution implements RequestExecution {
+public class LogRequestExecution<T> implements ApicreeExecution<T> {
     @Override
-    public HttpServletRequest execute(HttpServletRequest request) {
-        System.out.println(request);
-        return request;
+    public void execute(T t) {
+        System.out.println(t);
     }
 }

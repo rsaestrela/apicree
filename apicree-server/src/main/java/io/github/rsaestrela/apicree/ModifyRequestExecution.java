@@ -1,11 +1,8 @@
 package io.github.rsaestrela.apicree;
 
-import javax.servlet.http.HttpServletRequest;
-
-public class ModifyRequestExecution implements RequestExecution {
+public class ModifyRequestExecution<T> implements ApicreeExecution<T> {
     @Override
-    public HttpServletRequest execute(HttpServletRequest request) {
+    public void execute(T t) {
         System.out.println("Modify request");
-        return request;
     }
 }

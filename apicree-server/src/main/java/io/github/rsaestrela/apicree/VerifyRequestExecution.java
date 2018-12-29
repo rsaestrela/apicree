@@ -1,11 +1,8 @@
 package io.github.rsaestrela.apicree;
 
-import javax.servlet.http.HttpServletRequest;
-
-public class VerifyRequestExecution implements RequestExecution {
+public class VerifyRequestExecution<T> implements ApicreeExecution<T> {
     @Override
-    public HttpServletRequest execute(HttpServletRequest request) {
+    public void execute(T request) {
         System.out.println("Verify request");
-        return request;
     }
 }

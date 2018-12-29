@@ -1,5 +1,5 @@
 <ApicreeProxies>
-    <Proxy path="/asdf" proxy="http://rsaestrela.github.io" method="GET">
+    <Proxy path="/asdf" proxy="http://localhost:9999/auctions/statistics" method="GET">
         <PreExecution>
             <Execution executor="LogRequest"/>
             <Execution executor="VerifyRequest"/>

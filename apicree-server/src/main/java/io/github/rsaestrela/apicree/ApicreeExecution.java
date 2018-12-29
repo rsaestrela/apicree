@@ -1,5 +1,6 @@
 package io.github.rsaestrela.apicree;
 
+@FunctionalInterface
 public interface ApicreeExecution<T> {
-    T execute(T t);
+    void execute(T t);
 }

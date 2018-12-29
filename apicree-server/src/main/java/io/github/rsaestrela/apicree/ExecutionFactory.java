@@ -5,18 +5,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExecutionFactory {
 
-    public ApicreeExecution getExecution(String executor) {
+    private ExecutionFactory() {
+    }
+
+    public <T> ApicreeExecution<T> getExecution(String executor) {
         if (executor.equals("LogRequest")) {
-            return new LogRequestExecution();
+            return new LogRequestExecution<>();
         }
         if (executor.equals("VerifyRequest")) {
-            return new VerifyRequestExecution();
+            return new VerifyRequestExecution<>();
         }
         if (executor.equals("ModifyRequest")) {
-            return new ModifyRequestExecution();
+            return new ModifyRequestExecution<>();
         }
         if (executor.equals("LogResponse")) {
-            return new LogResponseExecution();
+            return new LogResponseExecution<>();
         }
         throw new IllegalStateException(String.format("Execution %s is not available", executor));
     }

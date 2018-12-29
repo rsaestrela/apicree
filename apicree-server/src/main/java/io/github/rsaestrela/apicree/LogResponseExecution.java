@@ -1,11 +1,8 @@
 package io.github.rsaestrela.apicree;
 
-import org.apache.http.HttpResponse;
-
-public class LogResponseExecution implements ResponseExecution {
+public class LogResponseExecution<T> implements ApicreeExecution<T> {
     @Override
-    public HttpResponse execute(HttpResponse response) {
-        System.out.println(response.toString());
-        return response;
+    public void execute(T t) {
+        System.out.println(t.toString());
     }
 }

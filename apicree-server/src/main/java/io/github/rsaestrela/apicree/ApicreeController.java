@@ -21,8 +21,7 @@ import java.util.Optional;
 @RestController
 public class ApicreeController {
 
-    private CloseableHttpClient httpClient = HttpClients.createDefault();
-
+    private final CloseableHttpClient httpClient = HttpClients.createDefault();
     private final ApicreeProxies apicreeProxies;
     private final ExecutionFactory executionFactory;
 
@@ -34,24 +33,20 @@ public class ApicreeController {
 
     @RequestMapping(path = "**/**", method = RequestMethod.GET)
     public ResponseEntity proxy(HttpServletRequest request) throws IOException {
-
         String requestURI = request.getRequestURI();
-        Optional<Proxy> proxy = getProxy(requestURI);
-        if (!proxy.isPresent()) {
+        Optional<Proxy> proxyOpt = getProxy(requestURI);
+        if (!proxyOpt.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-
-        executeRequestExecutors(proxy.get(), request);
-
+        Proxy proxy = proxyOpt.get();
+        executeRequestExecutors(proxy, request);
         HttpResponse proxyResponse;
         try {
-            proxyResponse = performProxyCall(proxy.get().getProxy());
+            proxyResponse = performProxyCall(proxy.getProxy());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        executeResponseExecutors(proxy.get(), proxyResponse);
-
+        executeResponseExecutors(proxy, proxyResponse);
         return ResponseEntity.ok(IOUtils.toString(proxyResponse.getEntity().getContent(), StandardCharsets.UTF_8.name()));
     }
 
@@ -67,7 +62,7 @@ public class ApicreeController {
     private void executeRequestExecutors(Proxy proxy, HttpServletRequest request) {
         proxy.getPreExecution().getExecutions().forEach(execution -> {
             String executor = execution.getExecutor();
-            RequestExecution requestExecution = (RequestExecution) executionFactory.getExecution(executor);
+            ApicreeExecution<HttpServletRequest> requestExecution = executionFactory.getExecution(executor);
             requestExecution.execute(request);
         });
     }
@@ -75,7 +70,7 @@ public class ApicreeController {
     private void executeResponseExecutors(Proxy proxy, HttpResponse response) {
         proxy.getPostExecution().getExecutions().forEach(execution -> {
             String executor = execution.getExecutor();
-            ResponseExecution responseExecution = (ResponseExecution) executionFactory.getExecution(executor);
+            ApicreeExecution<HttpResponse> responseExecution = executionFactory.getExecution(executor);
             responseExecution.execute(response);
         });
     }
